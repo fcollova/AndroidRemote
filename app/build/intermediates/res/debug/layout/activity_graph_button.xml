@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" xmlns:tools="http://schemas.android.com/tools">
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+  <com.example.android.GraphButtonActivity
+      android:id="@+id/graph"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:ignore="MissingRegistered" />
+  
+  <Button
+        android:text="row one"
+        android:textSize="50pt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+</LinearLayout><!-- From: file:/home/francesco/AndroidStudioProjects/Android%20Remote/app/src/main/res/layout/activity_graph_button.xml -->

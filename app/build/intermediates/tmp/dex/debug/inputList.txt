@@ -1,0 +1,2 @@
+/home/francesco/AndroidStudioProjects/Android Remote/app/build/intermediates/classes/debug
+/home/francesco/AndroidStudioProjects/Android Remote/app/build/intermediates/pre-dexed/debug/support-v4-18.0.0-2ff0e9a8125054644b014d6109a55e2b69dfb343.jar

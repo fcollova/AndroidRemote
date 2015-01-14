@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:keepScreenOn="true">
+    <!-- this will prevent the smartphone screen to turn off and the app to go on pause -->
+    <!-- opening another app will kill the connection, though -->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/connect"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Con"
+            android:textSize="14dp" >
+        </Button>
+
+        <Button
+            android:id="@+id/deconnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dis"
+            android:textSize="14dp" />
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next" />
+
+        <TextView
+            android:id="@+id/logview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="25.18"
+            android:bufferType="editable"
+            android:textSize="14dp" />
+    
+	
+</LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/GyroX"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:bufferType="editable"
+                android:text="TextView"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/GyroY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:bufferType="editable"
+                android:text="TextView"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/GyroZ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:bufferType="editable"
+                android:text="TextView"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/stop" />
+
+        <ImageView
+            android:id="@+id/forward_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/stop"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/forward_arrow" />
+
+        <ImageView
+            android:id="@+id/back_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/stop"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/back_arrow" />
+
+        <ImageView
+            android:id="@+id/right_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/stop"
+            android:src="@drawable/right_arrow" />
+
+        <ImageView
+            android:id="@+id/left_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/stop"
+            android:src="@drawable/left_arrow" />
+    </RelativeLayout>
+    
+    
+    </LinearLayout>
+    <!-- From: file:/home/francesco/AndroidStudioProjects/Android%20Remote/app/src/main/res/layout/activity_android_remote.xml -->
