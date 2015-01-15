@@ -11,6 +11,36 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/GyroX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:bufferType="editable"
+            android:text="TextView"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/GyroY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:bufferType="editable"
+            android:text="TextView"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/GyroZ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:bufferType="editable"
+            android:text="TextView"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
         <Button
@@ -46,81 +76,22 @@
 	
 </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/NGraph">
+        <com.androidplot.xy.XYPlot
+            android:id="@+id/HistoryPlot"
+            android:layout_width="fill_parent"
+            android:layout_height="408dp"
+            />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/GyroX"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:bufferType="editable"
-                android:text="TextView"
-                android:textSize="16dp" />
 
-            <TextView
-                android:id="@+id/GyroY"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:bufferType="editable"
-                android:text="TextView"
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/GyroZ"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:bufferType="editable"
-                android:text="TextView"
-                android:textSize="16dp" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/stop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/stop" />
 
-        <ImageView
-            android:id="@+id/forward_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/stop"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/forward_arrow" />
-
-        <ImageView
-            android:id="@+id/back_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/stop"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/back_arrow" />
-
-        <ImageView
-            android:id="@+id/right_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/stop"
-            android:src="@drawable/right_arrow" />
-
-        <ImageView
-            android:id="@+id/left_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/stop"
-            android:src="@drawable/left_arrow" />
-    </RelativeLayout>
-    
-    
-    </LinearLayout>
+</LinearLayout>
     

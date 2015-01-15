@@ -1,4 +1,4 @@
-package com.android.sensorhandle;
+package com.example.androidremote;
 
 import java.util.ArrayList;
 import java.util.Arrays;
