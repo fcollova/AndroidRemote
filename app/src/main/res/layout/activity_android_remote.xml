@@ -9,33 +9,137 @@
 
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/GyroX"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:bufferType="editable"
-            android:text="TextView"
-            android:textSize="16dp" />
+            android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/GyroY"
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:bufferType="editable"
+                android:text="Gx: "
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:bufferType="editable"
+                android:text="Gy: "
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:bufferType="editable"
+                android:text="Gz: "
+                android:textSize="16dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:bufferType="editable"
-            android:text="TextView"
-            android:textSize="16dp" />
+            android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/GyroZ"
+            <TextView
+                android:id="@+id/GyroX"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:bufferType="editable"
+                android:text="TextView"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/GyroY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:bufferType="editable"
+                android:text="TextView"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/GyroZ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:bufferType="editable"
+                android:text="TextView"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:bufferType="editable"
-            android:text="TextView"
-            android:textSize="16dp" />
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:bufferType="editable"
+                android:text=" - AccX: "
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:bufferType="editable"
+                android:text=" - AccY: "
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:bufferType="editable"
+                android:text=" - AccZ: "
+                android:textSize="16dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="77dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/AccX"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:bufferType="editable"
+                android:text="TextView"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/AccY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:bufferType="editable"
+                android:text="TextView"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/AccZ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:bufferType="editable"
+                android:text="TextView"
+                android:textSize="16dp" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -47,29 +151,31 @@
             android:id="@+id/connect"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:text="Con"
-            android:textSize="14dp" >
+            android:layout_gravity="left|right"
+            android:textStyle="bold">
         </Button>
 
         <Button
             android:id="@+id/deconnect"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:text="Dis"
-            android:textSize="14dp" />
+            android:layout_gravity="left|right"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/next"
-            android:layout_width="wrap_content"
+            android:layout_width="82dp"
             android:layout_height="wrap_content"
-            android:text="Next" />
+            android:text="Next"
+            android:layout_gravity="left|right"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/logview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="25.18"
             android:bufferType="editable"
             android:textSize="14dp" />
     
@@ -84,9 +190,21 @@
         android:id="@+id/NGraph">
         <com.androidplot.xy.XYPlot
             android:id="@+id/HistoryPlot"
-            android:layout_width="fill_parent"
-            android:layout_height="408dp"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            androidplot.renderMode="use_background_thread"
+            androidPlot.title="A Dynamic XY Plot"
+            androidPlot.domainLabel="Domain"
+            androidPlot.rangeLabel="Range"
+            androidPlot.graphWidget.marginTop="20dp"
+            androidPlot.graphWidget.marginLeft="15dp"
+            androidPlot.graphWidget.marginBottom="25dp"
+            androidPlot.graphWidget.marginRight="10dp"
+            androidPlot.legendWidget.iconSizeMetrics.heightMetric.value="15dp"
+            androidPlot.legendWidget.iconSizeMetrics.widthMetric.value="15dp"
+            androidPlot.legendWidget.heightMetric.value="25dp"
+            androidPlot.legendWidget.positionMetrics.anchor="right_bottom"/>
 
 
 

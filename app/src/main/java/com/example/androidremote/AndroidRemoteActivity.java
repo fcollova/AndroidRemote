@@ -29,38 +29,17 @@ import android.widget.TextView;
 
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.os.Bundle;
-import android.view.View;
+
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import com.androidplot.util.PlotStatistics;
 import com.androidplot.xy.*;
 
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.DashPathEffect;
-import android.graphics.Paint;
-import android.os.Bundle;
-import com.androidplot.Plot;
-import com.androidplot.util.PixelUtils;
-import com.androidplot.xy.XYSeries;
-import com.androidplot.xy.*;
-import java.text.DecimalFormat;
-import java.util.Observable;
-import java.util.Observer;
 
 
-import java.text.FieldPosition;
-import java.text.Format;
-import java.text.ParsePosition;
+
 import java.util.Arrays;
 
 
@@ -68,21 +47,24 @@ import java.util.Arrays;
 public class AndroidRemoteActivity extends Activity implements OnClickListener {
 
 
-    private static final int HISTORY_SIZE = 30;            // number of points to plot in history
+    private static final int HISTORY_SIZE = 50;            // number of points to plot in history
 
     private XYPlot aprHistoryPlot = null;
 
-    private SimpleXYSeries azimuthHistorySeries = null;
-
-
-
-
+    private SimpleXYSeries AccXHistorySeries = null;
+    private SimpleXYSeries AccYHistorySeries = null;
+    private SimpleXYSeries AccZHistorySeries = null;
 
 
     private TextView logview;
     private TextView GyroX;
     private TextView GyroY;
     private TextView GyroZ;
+    private TextView AccX;
+    private TextView AccY;
+    private TextView AccZ;
+
+
 
     private Button connect, deconnect, next;
     private ImageView forwardArrow, backArrow, rightArrow, leftArrow, stop;
@@ -99,37 +81,51 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
     final Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             String data = msg.getData().getString("receivedData");
+            String[] GyroValue;
+            String[] AccValue;
 
-            String SS = "1";
             // FC
             String[] parts = data.split(":");
             if (parts.length >= 3) {
                 String Gyro = parts[0];
                 String Acc = parts[1];
-                String Mag = parts[2];
-                String[] subparts = Gyro.split(";", -1);
-                if (subparts.length == 3) {
-                    String A = subparts[0];
-                    String B = subparts[1];
-                    String C = subparts[2];
-                    SS =  A;
-                    GyroX.setText(A);
-                    GyroY.setText(B);
-                    GyroZ.setText(C);
+                String AccR = parts[2];
+
+                GyroValue = Gyro.split(";", -1);
+                AccValue = AccR.split(";", -1);
+
+                if (GyroValue.length == 3) {
+                    GyroX.setText(GyroValue[0]);
+                    GyroY.setText(GyroValue[1]);
+                    GyroZ.setText(GyroValue[2]);
                 }
-            }
+                if (AccValue.length == 3) {
+                    AccX.setText(AccValue[0]);
+                    AccY.setText(AccValue[1]);
+                    AccZ.setText(AccValue[2]);
+                    //Manage update to History Plot
+                    float NewFloatX = Float.valueOf(AccValue[0]);
+                    float NewFloatY = Float.valueOf(AccValue[1]);
+                    float NewFloatZ = Float.valueOf(AccValue[2]);
 
-            //Manage update to History Plot
-            float newdata = Float.valueOf(SS);
-            // get rid the oldest sample in history:
-            if (azimuthHistorySeries.size() > HISTORY_SIZE) {
-                azimuthHistorySeries.removeFirst();
-            }
-            // add the latest history sample:
-            azimuthHistorySeries.addLast(null, newdata);
-            aprHistoryPlot.redraw();
+                    // get rid the oldest sample in history:
+                    if (AccXHistorySeries.size() > HISTORY_SIZE) {
+                        AccXHistorySeries.removeFirst();
+                        AccYHistorySeries.removeFirst();
+                        AccZHistorySeries.removeFirst();
+                    }
+                    // add the latest history sample:
+                    AccXHistorySeries.addLast(null, NewFloatX);
+                    AccYHistorySeries.addLast(null, NewFloatY);
+                    AccZHistorySeries.addLast(null, NewFloatZ);
 
-            addToLog(data);
+                    aprHistoryPlot.redraw();
+                }
+                }
+
+
+
+            //addToLog(data);
         }
     };
 
@@ -178,7 +174,9 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
         GyroX = (TextView) findViewById(R.id.GyroX);
         GyroY = (TextView) findViewById(R.id.GyroY);
         GyroZ = (TextView) findViewById(R.id.GyroZ);
-
+        AccX = (TextView) findViewById(R.id.AccX);
+        AccY = (TextView) findViewById(R.id.AccY);
+        AccZ = (TextView) findViewById(R.id.AccZ);
 
         connect = (Button) findViewById(R.id.connect);
         connect.setOnClickListener(this);
@@ -196,13 +194,32 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
 
         aprHistoryPlot = (XYPlot) findViewById(R.id.HistoryPlot);
 
-        azimuthHistorySeries = new SimpleXYSeries("Azimuth");
-        azimuthHistorySeries.useImplicitXVals();
 
-        aprHistoryPlot.setRangeBoundaries(-180, 359, BoundaryMode.FIXED);
-        aprHistoryPlot.setDomainBoundaries(0, 30, BoundaryMode.FIXED);
-        LineAndPointFormatter formatter1 = new LineAndPointFormatter(Color.rgb(0, 0, 0), null, null, null);
-        aprHistoryPlot.addSeries(azimuthHistorySeries, formatter1);
+        AccXHistorySeries = new SimpleXYSeries("Acc-X");
+        AccXHistorySeries.useImplicitXVals();
+
+        AccYHistorySeries = new SimpleXYSeries("Acc-Y");
+        AccYHistorySeries.useImplicitXVals();
+
+        AccZHistorySeries = new SimpleXYSeries("Acc-Z");
+        AccZHistorySeries.useImplicitXVals();
+
+
+        aprHistoryPlot.setRangeBoundaries(-1000, 1000, BoundaryMode.FIXED);
+        aprHistoryPlot.setDomainBoundaries(0, HISTORY_SIZE, BoundaryMode.FIXED);
+
+        LineAndPointFormatter formatterX = new LineAndPointFormatter(Color.rgb(0, 200, 0), null, null, null);
+        aprHistoryPlot.addSeries(AccXHistorySeries, formatterX);
+
+
+        LineAndPointFormatter formatterY = new LineAndPointFormatter(Color.rgb(200, 0, 0), null, null, null);
+        aprHistoryPlot.addSeries(AccYHistorySeries, formatterY);
+
+        LineAndPointFormatter formatterZ = new LineAndPointFormatter(Color.rgb(0, 0, 200), null, null, null);
+        aprHistoryPlot.addSeries(AccZHistorySeries, formatterZ);
+
+
+
         aprHistoryPlot.setDomainStepValue(5);
         aprHistoryPlot.setTicksPerRangeLabel(3);
         aprHistoryPlot.setDomainLabel("Sample Index");
