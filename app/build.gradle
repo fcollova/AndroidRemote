@@ -22,4 +22,5 @@ dependencies {
     compile 'com.android.support:support-v4:18.0.0'
     compile files('/home/francesco/AndroidStudioProjects/Android Remote/lib/androidplot-core-0.6.1.jar')
     compile files('lib/androidplot-core-0.6.1.jar')
+    compile files('/home/francesco/AndroidStudioProjects/AndroidRemote/lib/androidplot-core-0.6.1.jar')
 }

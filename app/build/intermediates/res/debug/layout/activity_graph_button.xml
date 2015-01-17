@@ -22,4 +22,4 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
-</LinearLayout><!-- From: file:/home/francesco/AndroidStudioProjects/Android%20Remote/app/src/main/res/layout/activity_graph_button.xml -->
+</LinearLayout><!-- From: file:/home/francesco/AndroidStudioProjects/AndroidRemote/app/src/main/res/layout/activity_graph_button.xml -->

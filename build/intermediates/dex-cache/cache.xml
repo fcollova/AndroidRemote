@@ -6,14 +6,14 @@
         jumboMode="false"
         revision="21.1.2"
         sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
-        <dex dex="/home/francesco/AndroidStudioProjects/Android Remote/app/build/intermediates/pre-dexed/debug/support-v4-18.0.0-2ff0e9a8125054644b014d6109a55e2b69dfb343.jar" />
+        <dex dex="/home/francesco/AndroidStudioProjects/AndroidRemote/app/build/intermediates/pre-dexed/debug/support-v4-18.0.0-2ff0e9a8125054644b014d6109a55e2b69dfb343.jar" />
     </item>
     <item
-        jar="/home/francesco/AndroidStudioProjects/Android Remote/lib/androidplot-core-0.6.1.jar"
+        jar="/home/francesco/AndroidStudioProjects/AndroidRemote/lib/androidplot-core-0.6.1.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="3db0daea52375b26bfa61c59b8df93950bdefbbc">
-        <dex dex="/home/francesco/AndroidStudioProjects/Android Remote/app/build/intermediates/pre-dexed/debug/androidplot-core-0.6.1-e2323aec5815907d340b2a1de00611771d30cb9c.jar" />
+        <dex dex="/home/francesco/AndroidStudioProjects/AndroidRemote/app/build/intermediates/pre-dexed/debug/androidplot-core-0.6.1-04f0a81a22c4bcfd3412e4da28c27122c2f3f875.jar" />
     </item>
 
 </items>

@@ -34,6 +34,8 @@ import android.graphics.Color;
 
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ToggleButton;
+
 import com.androidplot.xy.*;
 
 
@@ -63,6 +65,7 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
     private TextView AccX;
     private TextView AccY;
     private TextView AccZ;
+    private ToggleButton tButton;
 
 
 
@@ -177,6 +180,7 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
         AccX = (TextView) findViewById(R.id.AccX);
         AccY = (TextView) findViewById(R.id.AccY);
         AccZ = (TextView) findViewById(R.id.AccZ);
+        tButton = (ToggleButton) findViewById(R.id.tButton);
 
         connect = (Button) findViewById(R.id.connect);
         connect.setOnClickListener(this);
