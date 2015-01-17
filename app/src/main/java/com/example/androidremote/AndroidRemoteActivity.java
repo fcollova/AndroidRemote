@@ -12,8 +12,12 @@
 package com.example.androidremote;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
+
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,8 +31,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
-
-
 import android.content.Context;
 import android.graphics.Color;
 
@@ -38,11 +40,8 @@ import android.widget.ToggleButton;
 
 import com.androidplot.xy.*;
 
-
-
-
-
 import java.util.Arrays;
+import android.widget.Toast;
 
 
 
@@ -68,19 +67,23 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
     private ToggleButton tButton;
 
 
-
+    private Button Buttonstatus;
     private Button connect, deconnect, next;
     private ImageView forwardArrow, backArrow, rightArrow, leftArrow, stop;
+
+
     private BluetoothAdapter mBluetoothAdapter = null;
+    private BtInterface bt = null;
 
     private String[] logArray = null;
-
-    private BtInterface bt = null;
 
     static final String TAG = "Chihuahua";
     static final int REQUEST_ENABLE_BT = 3;
 
-    //This handler listens to messages from the bluetooth interface and adds them to the log
+
+
+
+     //This handler listens to messages from the bluetooth interface and adds them to the log
     final Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             String data = msg.getData().getString("receivedData");
@@ -126,9 +129,7 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
                 }
                 }
 
-
-
-            //addToLog(data);
+            // ->> addToLog(data);
         }
     };
 
@@ -138,8 +139,11 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
             int status = msg.arg1;
             if (status == BtInterface.CONNECTED) {
                 addToLog("Connected");
+                Buttonstatus.setBackgroundColor(getResources().getColor(R.color.green));
             } else if (status == BtInterface.DISCONNECTED) {
                 addToLog("Disconnected");
+                Buttonstatus.setBackgroundColor(getResources().getColor(R.color.red));
+
             }
         }
     };
@@ -180,7 +184,10 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
         AccX = (TextView) findViewById(R.id.AccX);
         AccY = (TextView) findViewById(R.id.AccY);
         AccZ = (TextView) findViewById(R.id.AccZ);
+
         tButton = (ToggleButton) findViewById(R.id.tButton);
+
+        Buttonstatus = (Button) findViewById(R.id.status);
 
         connect = (Button) findViewById(R.id.connect);
         connect.setOnClickListener(this);
@@ -190,6 +197,10 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
 
         next = (Button) findViewById(R.id.next);
         next.setOnClickListener(this);
+
+
+        //Buttonstatus.setBackgroundColor(getResources().getColor(R.color.red));
+
 
 
 
@@ -231,12 +242,35 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
         aprHistoryPlot.setRangeLabel("Angle (Degs)");
         aprHistoryPlot.getRangeLabelWidget().pack();
 
-
     }
+
+    public void finish() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("No Bluetooth Interface Present! Exit");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                quit();
+            }
+        });
+        /* Per Gestire anche il NO!!
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        */
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+    public void quit() {
+        super.finish();
+    };
 
     //it is better to handle bluetooth connection in onResume (ie able to reset when changing screens)
     @Override
     public void onResume() {
+
 
         super.onResume();
         //first of all, we check if there is bluetooth on the phone
@@ -244,6 +278,8 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
         if (mBluetoothAdapter == null) {
             // Device does not support Bluetooth
             Log.v(TAG, "Device does not support Bluetooth");
+            finish(); //Exit From App Device Bluetooth Does not exit!!
+
         } else {
             //Device supports BT
             if (!mBluetoothAdapter.isEnabled()) {
@@ -277,9 +313,22 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
     //all buttons launch a function from the BtInterface object
     @Override
     public void onClick(View v) {
+
+
+
+        // Verify if Bluetooth is enabled in the device
+                String toastText;
+        if (mBluetoothAdapter.isEnabled()) {
+            String address = mBluetoothAdapter.getAddress();
+            String name = mBluetoothAdapter.getName();
+            toastText = "Bluetooth is enabled: " + name + " : " + address;
+        }else toastText = "Bluetooth is not enabled";
+        Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_SHORT).show();
+
+
         if (v == connect) {
             addToLog("Trying to connect");
-            bt.connect();
+            bt.connect(this);
         } else if (v == deconnect) {
             addToLog("closing connection");
             bt.close();

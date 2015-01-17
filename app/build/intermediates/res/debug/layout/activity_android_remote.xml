@@ -146,7 +146,16 @@
                 android:bufferType="editable"
                 android:text="TextView"
                 android:textSize="16dp" />
+
         </LinearLayout>
+
+        <Button
+            android:id="@+id/status"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="B"
+            android:textStyle="bold"
+            android:background="@color/red" />
 
     </LinearLayout>
 
@@ -161,7 +170,8 @@
             android:layout_height="wrap_content"
             android:text="Con"
             android:layout_gravity="left|right"
-            android:textStyle="bold">
+            android:textStyle="bold"
+            android:background="@drawable/my_custom_button2">
         </Button>
 
         <Button
@@ -170,7 +180,8 @@
             android:layout_height="wrap_content"
             android:text="Dis"
             android:layout_gravity="left|right"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:background="@drawable/my_custom_button2" />
 
         <Button
             android:id="@+id/next"
@@ -178,7 +189,8 @@
             android:layout_height="wrap_content"
             android:text="Next"
             android:layout_gravity="left|right"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:background="@drawable/my_custom_button" />
 
         <TextView
             android:id="@+id/logview"

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true" >
         <shape>
             <gradient
@@ -43,8 +41,8 @@
     <item>
         <shape>
             <gradient
-                android:endColor="@color/blue2"
-                android:startColor="@color/blue25"
+                android:endColor="@color/white1"
+                android:startColor="@color/white2"
                 android:angle="270" />
             <stroke
                 android:width="3dp"
@@ -58,4 +56,5 @@
                 android:bottom="10dp" />
         </shape>
     </item>
-</selector><!-- From: file:/home/francesco/AndroidStudioProjects/AndroidRemote/app/src/main/res/drawable/custom_button.xml -->
+
+</selector>

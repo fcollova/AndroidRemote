@@ -24,10 +24,15 @@ import java.util.UUID;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import android.app.Activity;
+import android.widget.Toast;
+
 
 public class BtInterface {
 	
@@ -47,7 +52,12 @@ public class BtInterface {
 	
 	public static int CONNECTED = 1;
 	public static int DISCONNECTED = 2;
-	static final String TAG = "Chihuahua";	
+	static final String TAG = "Chihuahua";
+
+
+
+
+
 
 	public BtInterface(Handler hstatus, Handler h) {
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -56,8 +66,8 @@ public class BtInterface {
 	}
 	
 	//when called from the main activity, it sets the connection with the remote device
-	public void connect() {
-		
+	public void connect(Context Ctx) {
+
 		Set<BluetoothDevice> setpairedDevices = mBluetoothAdapter.getBondedDevices();
     	BluetoothDevice[] pairedDevices = (BluetoothDevice[]) setpairedDevices.toArray(new BluetoothDevice[setpairedDevices.size()]);
 	
@@ -80,7 +90,11 @@ public class BtInterface {
 			}
 		}
 		if(foundChihuahua == false){
-			Log.v(TAG, "You have not turned on your Chihuahua");
+			Log.v(TAG, "You have not turned on your Device Chihuahua");
+            String toastText;
+            toastText = "Bluetooth device: FC_MWII is not Active";
+            Toast.makeText(Ctx, toastText, Toast.LENGTH_LONG).show();
+            return;
 		}
 		
 		receiverThread = new ReceiverThread(handlerMessage);
@@ -108,6 +122,7 @@ public class BtInterface {
 	//properly closing the socket and updating the status
 	public void close() {
 		try {
+            if (socket == null) return; //socket never opened
 			socket.close();
 			receiverThread.interrupt();
 			
