@@ -169,6 +169,7 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_android_remote);
 
@@ -197,12 +198,6 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
 
         next = (Button) findViewById(R.id.next);
         next.setOnClickListener(this);
-
-
-        //Buttonstatus.setBackgroundColor(getResources().getColor(R.color.red));
-
-
-
 
         //FC---------------
         // setup the History plot:
@@ -270,8 +265,6 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
     //it is better to handle bluetooth connection in onResume (ie able to reset when changing screens)
     @Override
     public void onResume() {
-
-
         super.onResume();
         //first of all, we check if there is bluetooth on the phone
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -317,7 +310,7 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
 
 
         // Verify if Bluetooth is enabled in the device
-                String toastText;
+        String toastText;
         if (mBluetoothAdapter.isEnabled()) {
             String address = mBluetoothAdapter.getAddress();
             String name = mBluetoothAdapter.getName();
