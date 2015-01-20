@@ -14,6 +14,8 @@ package com.example.androidremote;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 
@@ -43,20 +45,24 @@ import com.androidplot.xy.*;
 import java.util.Arrays;
 import android.widget.Toast;
 
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
+
 
 
 public class AndroidRemoteActivity extends Activity implements OnClickListener {
 
 
+
+
+    //F.C. Used by Androidplot library
     private static final int HISTORY_SIZE = 50;            // number of points to plot in history
-
     private XYPlot aprHistoryPlot = null;
-
     private SimpleXYSeries AccXHistorySeries = null;
     private SimpleXYSeries AccYHistorySeries = null;
     private SimpleXYSeries AccZHistorySeries = null;
 
-
+    //F.C. User Interface
     private TextView logview;
     private TextView GyroX;
     private TextView GyroY;
@@ -65,18 +71,14 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
     private TextView AccY;
     private TextView AccZ;
     private ToggleButton tButton;
-
-
     private Button Buttonstatus;
     private Button connect, deconnect, next;
     private ImageView forwardArrow, backArrow, rightArrow, leftArrow, stop;
 
-
+    // Bluetooth Management
     private BluetoothAdapter mBluetoothAdapter = null;
     private BtInterface bt = null;
-
     private String[] logArray = null;
-
     static final String TAG = "Chihuahua";
     static final int REQUEST_ENABLE_BT = 3;
 
@@ -86,6 +88,7 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
      //This handler listens to messages from the bluetooth interface and adds them to the log
     final Handler handler = new Handler() {
         public void handleMessage(Message msg) {
+
             String data = msg.getData().getString("receivedData");
             String[] GyroValue;
             String[] AccValue;
@@ -137,13 +140,16 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
     final Handler handlerStatus = new Handler() {
         public void handleMessage(Message msg) {
             int status = msg.arg1;
-            if (status == BtInterface.CONNECTED) {
+            if (status == BtInterface.CONNECTED)
+            {
                 addToLog("Connected");
                 Buttonstatus.setBackgroundColor(getResources().getColor(R.color.green));
-            } else if (status == BtInterface.DISCONNECTED) {
+            }
+            else
+            if (status == BtInterface.DISCONNECTED)
+            {
                 addToLog("Disconnected");
                 Buttonstatus.setBackgroundColor(getResources().getColor(R.color.red));
-
             }
         }
     };
@@ -194,7 +200,12 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
         connect.setOnClickListener(this);
 
         deconnect = (Button) findViewById(R.id.deconnect);
-        deconnect.setOnClickListener(this);
+        deconnect.setOnClickListener(this);      /*IntentFilter filter1 = new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED);
+        IntentFilter filter2 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
+        IntentFilter filter3 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        Ctx.registerReceiver(mReceiver, filter1);
+        Ctx.registerReceiver(mReceiver, filter2);
+        Ctx.registerReceiver(mReceiver, filter3);*/
 
         next = (Button) findViewById(R.id.next);
         next.setOnClickListener(this);
@@ -228,8 +239,6 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
         LineAndPointFormatter formatterZ = new LineAndPointFormatter(Color.rgb(0, 0, 200), null, null, null);
         aprHistoryPlot.addSeries(AccZHistorySeries, formatterZ);
 
-
-
         aprHistoryPlot.setDomainStepValue(5);
         aprHistoryPlot.setTicksPerRangeLabel(3);
         aprHistoryPlot.setDomainLabel("Sample Index");
@@ -237,9 +246,19 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
         aprHistoryPlot.setRangeLabel("Angle (Degs)");
         aprHistoryPlot.getRangeLabelWidget().pack();
 
+        //Imposta la ricezione degli eventi Bluetooth
+
+        IntentFilter filter1 = new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED);
+        IntentFilter filter2 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
+        IntentFilter filter3 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        this.registerReceiver(mReceiver, filter1);
+        this.registerReceiver(mReceiver, filter2);
+        this.registerReceiver(mReceiver, filter3);
+
     }
 
-    public void finish() {
+
+    public void my_finish() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("No Bluetooth Interface Present! Exit");
         builder.setCancelable(false);
@@ -271,7 +290,7 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
         if (mBluetoothAdapter == null) {
             // Device does not support Bluetooth
             Log.v(TAG, "Device does not support Bluetooth");
-            finish(); //Exit From App Device Bluetooth Does not exit!!
+            my_finish(); //Exit From App Device Bluetooth Does not exit!!
 
         } else {
             //Device supports BT
@@ -318,7 +337,6 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
         }else toastText = "Bluetooth is not enabled";
         Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_SHORT).show();
 
-
         if (v == connect) {
             addToLog("Trying to connect");
             bt.connect(this);
@@ -346,7 +364,31 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
         }
     }
 
+    //The BroadcastReceiver that listens for bluetooth broadcasts
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+
+                //Device found
+            }
+            else if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
+
+                //Device is now connected
+            }
+
+            else if (BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED.equals(action)) {
+                //Device is about to disconnect
+            }
+            else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                //bt.close(); Da modificare
+                //Device has disconnected
+            }
+        }
+    };
 
 
 }

@@ -24,7 +24,10 @@ import java.util.UUID;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -32,6 +35,7 @@ import android.util.Log;
 
 import android.app.Activity;
 import android.widget.Toast;
+
 
 
 public class BtInterface {
@@ -55,27 +59,29 @@ public class BtInterface {
 	static final String TAG = "Chihuahua";
 
 
-
-
-
-
 	public BtInterface(Handler hstatus, Handler h) {
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		handlerStatus = hstatus;
-		handlerMessage = h;		
-	}
+		handlerMessage = h;
+
+    }
+
+
+
 	
 	//when called from the main activity, it sets the connection with the remote device
 	public void connect(Context Ctx) {
 
-		Set<BluetoothDevice> setpairedDevices = mBluetoothAdapter.getBondedDevices();
+        //Ricerca i device Paired
+        Set<BluetoothDevice> setpairedDevices = mBluetoothAdapter.getBondedDevices();
     	BluetoothDevice[] pairedDevices = (BluetoothDevice[]) setpairedDevices.toArray(new BluetoothDevice[setpairedDevices.size()]);
 	
 		boolean foundChihuahua = false;
 		for(int i=0;i<pairedDevices.length;i++) {
 			if(pairedDevices[i].getName().contains("FC_MWII")) {
 				device = pairedDevices[i];
-				try {
+				try
+                {
 					//the String "00001101-0000-1000-8000-00805F9B34FB" is standard for Serial connections
 					socket = device.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
 					receiveStream = socket.getInputStream();
@@ -103,12 +109,10 @@ public class BtInterface {
 			@Override public void run() {
 				try {
 					socket.connect();
-					
 					Message msg = handlerStatus.obtainMessage();
 					msg.arg1 = CONNECTED;
 	                handlerStatus.sendMessage(msg);
-	                
-					receiverThread.start();
+	                receiverThread.start();
 					
 				} 
 				catch (IOException e) {
@@ -118,6 +122,9 @@ public class BtInterface {
 			}
 		}.start();
 	}
+
+
+
 	
 	//properly closing the socket and updating the status
 	public void close() {
@@ -125,7 +132,6 @@ public class BtInterface {
             if (socket == null) return; //socket never opened
 			socket.close();
 			receiverThread.interrupt();
-			
 			Message msg = handlerStatus.obtainMessage();
 			msg.arg1 = DISCONNECTED;
 			handlerStatus.sendMessage(msg);
@@ -137,14 +143,16 @@ public class BtInterface {
 	}
 	
 	//the main function of the app : sending character over the Serial connection when the user presses a key on the screen
-		public void sendData(String data) {
-			try {
-				sendStream.write(data.getBytes());
-		        sendStream.flush();
-			} catch (IOException e) {
-				e.printStackTrace();
+	public void sendData(String data) {
+		try {
+			sendStream.write(data.getBytes());
+	        sendStream.flush();
 			}
-		}
+        catch (IOException e)
+            {
+			e.printStackTrace();
+			}
+	}
 	
 	//this thread listens to replies from Arduino as it performs actions, then update the log through the Handler
 	private class ReceiverThread extends Thread {
@@ -170,7 +178,7 @@ public class BtInterface {
 						
 						dataToSend = receiveReader.readLine();
 						if (dataToSend != null){
-							Log.v(TAG, dataToSend);
+							//Log.v(TAG, dataToSend);
 							Message msg = handler.obtainMessage();
 							Bundle b = new Bundle();
 							b.putString("receivedData", dataToSend);

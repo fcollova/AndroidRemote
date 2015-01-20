@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/home/francesco/AndroidStudioProjects/AndroidRemote/app/src/main/res/values/color.xml -->
+    <!-- From: file:/home/francesco/AndroidStudioProjects/Android%20Remote/app/src/main/res/values/color.xml -->
     <eat-comment/>
     <color name="black">#000000</color>
     <color name="blue">#045FB4</color>
@@ -16,16 +16,16 @@
     <color name="white2">#DDDDDD</color>
     <color name="yellow1">#F9E60E</color>
     <color name="yellow2">#F9F89D</color>
-    <!-- From: file:/home/francesco/AndroidStudioProjects/AndroidRemote/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/home/francesco/AndroidStudioProjects/Android%20Remote/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <!-- From: file:/home/francesco/AndroidStudioProjects/AndroidRemote/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/home/francesco/AndroidStudioProjects/Android%20Remote/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="action_settings">Settings</string>
     <string name="app_name">Android Remote</string>
     <string name="hello_world">Hello world!</string>
-    <!-- From: file:/home/francesco/AndroidStudioProjects/AndroidRemote/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/home/francesco/AndroidStudioProjects/Android%20Remote/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--

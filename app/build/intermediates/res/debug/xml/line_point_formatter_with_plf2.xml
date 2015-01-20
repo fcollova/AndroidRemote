@@ -4,4 +4,4 @@
     linePaint.color="#0000AA"
     vertexPaint.color="#000077"
     fillPaint.color="#00000000"
-    pointLabelFormatter.textPaint.color="#FFFFFF"/><!-- From: file:/home/francesco/AndroidStudioProjects/AndroidRemote/app/src/main/res/xml/line_point_formatter_with_plf2.xml -->
+    pointLabelFormatter.textPaint.color="#FFFFFF"/><!-- From: file:/home/francesco/AndroidStudioProjects/Android%20Remote/app/src/main/res/xml/line_point_formatter_with_plf2.xml -->
