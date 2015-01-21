@@ -163,9 +163,7 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
     //handles the log view modification
     //only the most recent messages are shown
     private void addToLog(String message) {
-        for (int i = 1; i < logArray.length; i++) {
-            logArray[i - 1] = logArray[i];
-        }
+        System.arraycopy(logArray, 1, logArray, 0, logArray.length - 1);
         logArray[logArray.length - 1] = message;
 
         logview.setText("");
@@ -237,7 +235,6 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
         LineAndPointFormatter formatterX = new LineAndPointFormatter(Color.rgb(0, 200, 0), null, null, null);
         aprHistoryPlot.addSeries(AccXHistorySeries, formatterX);
 
-
         LineAndPointFormatter formatterY = new LineAndPointFormatter(Color.rgb(200, 0, 0), null, null, null);
         aprHistoryPlot.addSeries(AccYHistorySeries, formatterY);
 
@@ -283,7 +280,7 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
     }
     public void quit() {
         super.finish();
-    };
+    }
 
     //it is better to handle bluetooth connection in onResume (ie able to reset when changing screens)
     @Override
