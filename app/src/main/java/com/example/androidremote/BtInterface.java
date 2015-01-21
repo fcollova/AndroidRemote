@@ -47,7 +47,7 @@ public class BtInterface {
 	private InputStream receiveStream = null;
 	private BufferedReader receiveReader = null;
 	private OutputStream sendStream = null;	//no need to buffer it as we are going to send 1 char at a time
-	
+
 	//this thread will listen to incoming messages. It will be killed when connection is closed
 	private ReceiverThread receiverThread;
 
@@ -56,7 +56,9 @@ public class BtInterface {
 	
 	public static int CONNECTED = 1;
 	public static int DISCONNECTED = 2;
-	static final String TAG = "Chihuahua";
+    public static int BtInterfaceStatus = DISCONNECTED;
+
+    static final String TAG = "Chihuahua";
 
 
 	public BtInterface(Handler hstatus, Handler h) {
@@ -110,6 +112,7 @@ public class BtInterface {
 				try {
 					socket.connect();
 					Message msg = handlerStatus.obtainMessage();
+                    BtInterfaceStatus = CONNECTED;
 					msg.arg1 = CONNECTED;
 	                handlerStatus.sendMessage(msg);
 	                receiverThread.start();
@@ -128,18 +131,39 @@ public class BtInterface {
 	
 	//properly closing the socket and updating the status
 	public void close() {
-		try {
+
             if (socket == null) return; //socket never opened
-			socket.close();
-			receiverThread.interrupt();
-			Message msg = handlerStatus.obtainMessage();
+
+            receiverThread.interrupt();
+
+            if (receiveReader != null) {
+                try {receiveReader.close();} catch (IOException e) {}
+                receiveReader = null;
+            }
+
+            if (receiveStream != null) {
+                try {receiveStream.close();} catch (IOException e) {}
+                receiveStream = null;
+            }
+
+            if (sendStream != null) {
+                try {sendStream.close();} catch (IOException e) {}
+                sendStream = null;
+            }
+            if (socket!=null) {
+                try {socket.close();} catch (IOException e) {
+                //                e.printStackTrace();
+                };
+                socket = null;
+            }
+            //socket.close();
+
+            Message msg = handlerStatus.obtainMessage();
+            BtInterfaceStatus = DISCONNECTED;
 			msg.arg1 = DISCONNECTED;
 			handlerStatus.sendMessage(msg);
-            
-		} 
-		catch (IOException e) {
-			e.printStackTrace();
-		}
+
+
 	}
 	
 	//the main function of the app : sending character over the Serial connection when the user presses a key on the screen
@@ -163,7 +187,7 @@ public class BtInterface {
 		}
 		
 		@Override public void run() {
-			while(socket != null) {
+			while(socket != null && receiveStream!=null && receiveReader != null) {
 				if (isInterrupted()){
 						try {
 							join();
@@ -173,25 +197,27 @@ public class BtInterface {
 						}
 				}
 				try {
-					if(receiveStream.available() > 0) {
-						String dataToSend = ""; //when we hit a line break, we send the data									
-						
-						dataToSend = receiveReader.readLine();
-						if (dataToSend != null){
-							//Log.v(TAG, dataToSend);
-							Message msg = handler.obtainMessage();
-							Bundle b = new Bundle();
-							b.putString("receivedData", dataToSend);
-			                msg.setData(b);
-			                handler.sendMessage(msg);
-			                dataToSend = "";
-						}
-						
-					}
+                    if (receiveStream!=null)
+                    {
+					    if(receiveStream.available() > 0)
+                        {
+                            String dataToSend = ""; //when we hit a line break, we send the data
+						    dataToSend = receiveReader.readLine();
+						    if (dataToSend != null)
+                            {
+							    //Log.v(TAG, dataToSend);
+							    Message msg = handler.obtainMessage();
+							    Bundle b = new Bundle();
+							    b.putString("receivedData", dataToSend);
+			                    msg.setData(b);
+			                    handler.sendMessage(msg);
+			                    dataToSend = "";
+
+                            }
+                        }
+                    }
 				} 
-				catch (IOException e) {
-					e.printStackTrace();
-				}
+				catch (IOException e) {e.printStackTrace();}
 			}
 		}
 	}

@@ -72,7 +72,10 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
     private TextView AccZ;
     private ToggleButton tButton;
     private Button Buttonstatus;
-    private Button connect, deconnect, next;
+
+    //private Button connect, deconnect, next;
+    private Button next;
+
     private ImageView forwardArrow, backArrow, rightArrow, leftArrow, stop;
 
     // Bluetooth Management
@@ -143,13 +146,16 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
             if (status == BtInterface.CONNECTED)
             {
                 addToLog("Connected");
-                Buttonstatus.setBackgroundColor(getResources().getColor(R.color.green));
+                tButton.setBackgroundColor(getResources().getColor(R.color.green));
+                tButton.setChecked(true);
             }
             else
             if (status == BtInterface.DISCONNECTED)
             {
                 addToLog("Disconnected");
-                Buttonstatus.setBackgroundColor(getResources().getColor(R.color.red));
+                tButton.setBackgroundColor(getResources().getColor(R.color.red));
+                tButton.setChecked(false);
+
             }
         }
     };
@@ -193,19 +199,18 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
         AccZ = (TextView) findViewById(R.id.AccZ);
 
         tButton = (ToggleButton) findViewById(R.id.tButton);
+        tButton.setOnClickListener(this);
 
         Buttonstatus = (Button) findViewById(R.id.status);
 
+        /*
+        OLD Connect Deconnect Button
         connect = (Button) findViewById(R.id.connect);
         connect.setOnClickListener(this);
 
         deconnect = (Button) findViewById(R.id.deconnect);
-        deconnect.setOnClickListener(this);      /*IntentFilter filter1 = new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED);
-        IntentFilter filter2 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
-        IntentFilter filter3 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-        Ctx.registerReceiver(mReceiver, filter1);
-        Ctx.registerReceiver(mReceiver, filter2);
-        Ctx.registerReceiver(mReceiver, filter3);*/
+        deconnect.setOnClickListener(this);
+        */
 
         next = (Button) findViewById(R.id.next);
         next.setOnClickListener(this);
@@ -247,7 +252,6 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
         aprHistoryPlot.getRangeLabelWidget().pack();
 
         //Imposta la ricezione degli eventi Bluetooth
-
         IntentFilter filter1 = new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED);
         IntentFilter filter2 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
         IntentFilter filter3 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED);
@@ -326,8 +330,6 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
 
-
-
         // Verify if Bluetooth is enabled in the device
         String toastText;
         if (mBluetoothAdapter.isEnabled()) {
@@ -337,13 +339,16 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
         }else toastText = "Bluetooth is not enabled";
         Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_SHORT).show();
 
+        /*
         if (v == connect) {
-            addToLog("Trying to connect");
-            bt.connect(this);
+            //addToLog("Trying to connect");
+            //bt.connect(this);
         } else if (v == deconnect) {
-            addToLog("closing connection");
-            bt.close();
-        } else if (v == next) {
+            //addToLog("closing connection");
+            //bt.close();
+        } else
+        */
+        if (v == next) {
             Intent Myactivity = new Intent(this, GraphButtonActivity.class);
             startActivity(Myactivity);
         } else if (v == forwardArrow) {
@@ -361,6 +366,16 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
         } else if (v == stop) {
             //addToLog("Stopping");
             bt.sendData("S");
+        } else if (v == tButton){
+            if(tButton.isChecked()){
+                addToLog("Trying to connect");
+                bt.connect(this);
+            }
+            else
+            {
+                addToLog("closing connection");
+                bt.close();
+            }
         }
     }
 
@@ -371,23 +386,24 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
             String action = intent.getAction();
             BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
-            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {}
 
-                //Device found
+                else if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
+                        //Device is now connected
+                }
+                else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+                        //Done searching
+                }
+                else if (BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED.equals(action)) {
+                        //Device is about to disconnect
+                }
+                else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action))
+                        {
+                            if(bt.BtInterfaceStatus == BtInterface.CONNECTED){bt.close();}
+                            addToLog("Broadcast Disconnected");
+                            //Device has disconnected
+                        }
             }
-            else if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
-
-                //Device is now connected
-            }
-
-            else if (BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED.equals(action)) {
-                //Device is about to disconnect
-            }
-            else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
-                //bt.close(); Da modificare
-                //Device has disconnected
-            }
-        }
     };
 
 
