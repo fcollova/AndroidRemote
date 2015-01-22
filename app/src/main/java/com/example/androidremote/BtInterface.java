@@ -120,6 +120,10 @@ public class BtInterface {
 				} 
 				catch (IOException e) {
 					Log.v("N", "Connection Failed : "+e.getMessage());
+                    Message msg = handlerStatus.obtainMessage();
+                    BtInterfaceStatus = DISCONNECTED;
+                    msg.arg1 = DISCONNECTED;
+                    handlerStatus.sendMessage(msg);
 					e.printStackTrace();
 				}
 			}

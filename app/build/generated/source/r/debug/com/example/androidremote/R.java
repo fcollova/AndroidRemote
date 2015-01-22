@@ -41,6 +41,9 @@ public final class R {
         public static final int my_custom_button2=0x7f020007;
         public static final int right_arrow=0x7f020008;
         public static final int stop=0x7f020009;
+        public static final int toggle_off=0x7f02000a;
+        public static final int toggle_on=0x7f02000b;
+        public static final int toggle_shape=0x7f02000c;
     }
     public static final class id {
         public static final int AccX=0x7f0a000a;

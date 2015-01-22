@@ -146,14 +146,14 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
             if (status == BtInterface.CONNECTED)
             {
                 addToLog("Connected");
-                tButton.setBackgroundColor(getResources().getColor(R.color.green));
+                //tButton.setBackgroundColor(getResources().getColor(R.color.green));
                 tButton.setChecked(true);
             }
             else
             if (status == BtInterface.DISCONNECTED)
             {
                 addToLog("Disconnected");
-                tButton.setBackgroundColor(getResources().getColor(R.color.red));
+                //tButton.setBackgroundColor(getResources().getColor(R.color.red));
                 tButton.setChecked(false);
 
             }
@@ -365,6 +365,7 @@ public class AndroidRemoteActivity extends Activity implements OnClickListener {
             bt.sendData("S");
         } else if (v == tButton){
             if(tButton.isChecked()){
+
                 addToLog("Trying to connect");
                 bt.connect(this);
             }

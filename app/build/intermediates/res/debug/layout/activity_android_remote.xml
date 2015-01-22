@@ -15,12 +15,11 @@
         android:weightSum="1">
 
         <ToggleButton
-            android:layout_width="90dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="New ToggleButton"
             android:id="@+id/tButton"
-            android:checked="false"
-            android:background="@color/red" />
+            android:background="@drawable/toggle_shape" />
 
         <LinearLayout
             android:layout_width="wrap_content"
